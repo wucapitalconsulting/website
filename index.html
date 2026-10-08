@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nan Capital &amp; Consulting — Asia–Europe Investment Advisory</title>
+  <meta name="description" content="Nan Capital & Consulting advises Asian investors on real estate, capital and industrial investments in Europe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #F8F7F4;
+      --marine: #0e2b46;
+      --gold: #cea84e;
+      --ink: #3A4A57;
+      --muted: #ede9e2;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Jost', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--marine); color: var(--cream); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+    .serif { font-family: 'EB Garamond', Georgia, serif; font-weight: 400; }
+    em { font-style: italic; color: var(--gold); }
+
+    /* Gold mini-title: label with 60px line */
+    .mini-title {
+      display: flex; align-items: center; gap: 1.25rem;
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); font-weight: 400;
+    }
+    .mini-title::before { content: ''; width: 60px; height: 1px; background: var(--gold); flex-shrink: 0; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+      padding: 1.1rem 2.4rem; min-height: 44px;
+      transition: background .35s ease, color .35s ease, border-color .35s ease;
+      cursor: pointer; border: 1px solid transparent;
+    }
+    .btn-gold { background: var(--gold); color: var(--marine); border-color: var(--gold); }
+    .btn-gold:hover { background: transparent; color: var(--gold); }
+    .btn-outline { color: var(--cream); border-color: rgba(248,247,244,.45); }
+    .btn-outline:hover { border-color: var(--cream); background: rgba(248,247,244,.08); }
+
+    /* Header */
+    header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      transition: background .5s ease, box-shadow .5s ease;
+    }
+    header .bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.75rem 0; transition: padding .5s ease;
+    }
+    header.scrolled { background: rgba(248,247,244,.96); box-shadow: 0 1px 0 rgba(14,43,70,.08); }
+    header.scrolled .bar { padding: 1rem 0; }
+    .logo { font-family: 'EB Garamond', serif; font-size: 1.4rem; color: var(--cream); transition: color .5s; }
+    .logo small { font-family: 'Jost', sans-serif; font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-left: .5rem; }
+    header.scrolled .logo { color: var(--marine); }
+    nav.desktop { display: none; align-items: center; gap: 2rem; }
+    nav.desktop a {
+      font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(248,247,244,.85); transition: color .3s;
+    }
+    nav.desktop a:hover { color: var(--gold); }
+    nav.desktop a.cta { border: 1px solid rgba(248,247,244,.4); padding: .65rem 1.25rem; }
+    header.scrolled nav.desktop a { color: var(--marine); }
+    header.scrolled nav.desktop a.cta { border-color: rgba(14,43,70,.3); }
+    nav.desktop a:hover, header.scrolled nav.desktop a:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* Burger */
+    .burger {
+      position: relative; width: 44px; height: 44px; background: none; border: 0; cursor: pointer;
+    }
+    .burger span {
+      position: absolute; left: 10px; width: 24px; height: 1px;
+      background: var(--cream); transition: all .3s ease;
+    }
+    .burger span:nth-child(1) { top: 19px; }
+    .burger span:nth-child(2) { top: 25px; }
+    header.scrolled .burger span, header.open .burger span { background: var(--marine); }
+    header.open .burger span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+    header.open .burger span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+    .mobile-menu {
+      max-height: 0; overflow: hidden; background: var(--cream);
+      transition: max-height .5s ease;
+    }
+    header.open .mobile-menu { max-height: 24rem; }
+    .mobile-menu a {
+      display: block; padding: 1rem 1.5rem; border-top: 1px solid rgba(14,43,70,.1);
+      font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--marine);
+    }
+    @media (min-width: 1024px) {
+      nav.desktop { display: flex; }
+      .burger, .mobile-menu { display: none; }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative; min-height: 100svh; display: flex; align-items: flex-end;
+      background: var(--marine); overflow: hidden;
+    }
+    .hero .bg {
+      position: absolute; inset: 0;
+      background: url('hero.jpg') center / cover no-repeat;
+      animation: kenburns 26s ease-in-out infinite alternate;
+    }
+    @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
+    .hero .veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #0e2b46 0%, rgba(14,43,70,.55) 55%, rgba(14,43,70,.35) 100%);
+    }
+    .hero .content { position: relative; z-index: 2; width: 100%; padding: 10rem 0 6rem; }
+    .hero h1 {
+      margin-top: 2rem; max-width: 52rem;
+      font-family: 'EB Garamond', serif; font-weight: 400;
+      font-size: clamp(2.9rem, 6vw, 4.6rem); line-height: 1.05; color: var(--cream);
+    }
+    .hero p.lead { margin-top: 2rem; max-width: 36rem; color: rgba(248,247,244,.8); font-size: 1.1rem; }
+    .hero .actions { margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+
+    /* Sections */
+    section { padding: 6rem 0; }
+    @media (min-width: 1024px) { section { padding: 9rem 0; } }
+    h2 {
+      margin-top: 2rem; font-family: 'EB Garamond', serif; font-weight: 400;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem); line-height: 1.1; color: var(--marine);
+    }
+    .body-text { margin-top: 2.5rem; font-size: 1.08rem; }
+    .body-text p + p { margin-top: 1.5rem; }
+
+    /* About */
+    .about-grid { display: grid; gap: 4rem; }
+    @media (min-width: 1024px) {
+      .about-grid { grid-template-columns: 6fr 1fr 5fr; gap: 2.5rem; }
+      .about-grid > .text { grid-column: 1; }
+      .about-grid > .image { grid-column: 3; }
+    }
+    blockquote {
+      margin-top: 3rem; border-left: 2px solid var(--gold);
+      background: var(--marine); padding: 2rem;
+    }
+    blockquote p { font-family: 'EB Garamond', serif; font-style: italic; font-size: 1.3rem; line-height: 1.6; color: var(--cream); }
+    blockquote footer { margin-top: 1.5rem; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+    .about-img { overflow: hidden; }
+    .about-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .caption { margin-top: 2rem; font-size: .9rem; color: rgba(58,74,87,.75); line-height: 1.7; }
+
+    /* Services */
+    .alt { background: rgba(237,233,226,.6); }
+    .service {
+      display: grid; gap: 1.5rem;
+      border-top: 1px solid rgba(14,43,70,.15);
+      padding: 2.5rem 0; transition: background .5s ease;
+    }
+    .service:last-child { border-bottom: 1px solid rgba(14,43,70,.15); }
+    .service:hover { background: var(--cream); }
+    @media (min-width: 768px) {
+      .service { grid-template-columns: 2fr 4fr 5fr; gap: 2rem; padding: 3.5rem 0; }
+    }
+    .service .nr { font-family: 'EB Garamond', serif; font-size: 2.2rem; color: var(--gold); }
+    .service h3 { font-family: 'EB Garamond', serif; font-weight: 400; font-size: 1.9rem; color: var(--marine); }
+    .service p { font-size: 1rem; line-height: 1.85; }
+    .tags { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+    .tags span {
+      position: relative; padding-left: 1.2rem;
+      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(14,43,70,.7);
+    }
+    .tags span::before {
+      content: ''; position: absolute; left: 0; top: .35em;
+      width: 7px; height: 7px; background: var(--gold);
+    }
+
+    /* Markets (dark) */
+    .dark { background: var(--marine); color: var(--cream); }
+    .dark h2 { color: var(--cream); }
+    .stats {
+      margin-top: 4rem; padding-top: 3rem;
+      border-top: 1px solid rgba(248,247,244,.15);
+      display: grid; gap: 2.5rem;
+    }
+    @media (min-width: 640px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+    .stats .value { font-family: 'EB Garamond', serif; font-size: 4rem; line-height: 1; color: var(--gold); }
+    .stats .label { margin-top: 1rem; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(248,247,244,.6); }
+    .corridor { margin-top: 5rem; display: grid; gap: 3rem; }
+    @media (min-width: 768px) { .corridor { grid-template-columns: 1fr 1fr; } }
+    .corridor h3 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 400; }
+    .corridor .where { margin-top: 1rem; font-family: 'EB Garamond', serif; font-style: italic; font-size: 1.5rem; color: rgba(248,247,244,.9); }
+    .corridor ul { margin-top: 2rem; list-style: none; }
+    .corridor li { position: relative; padding-left: 1.4rem; margin-top: 1rem; font-size: 1rem; color: rgba(248,247,244,.85); }
+    .corridor li::before { content: ''; position: absolute; left: 0; top: .55em; width: 7px; height: 7px; background: var(--gold); }
+
+    /* Approach */
+    .approach-grid { display: grid; gap: 4rem; }
+    @media (min-width: 1024px) {
+      .approach-grid { grid-template-columns: 5fr 1fr 6fr; }
+      .approach-grid > .intro { grid-column: 1; }
+      .approach-grid > .principles { grid-column: 3; }
+    }
+    .principle { border-top: 1px solid rgba(14,43,70,.15); padding: 2rem 0; display: flex; gap: 1.5rem; align-items: baseline; }
+    .principle:last-child { border-bottom: 1px solid rgba(14,43,70,.15); }
+    .principle .nr { font-family: 'EB Garamond', serif; font-size: 1.2rem; color: var(--gold); flex-shrink: 0; }
+    .principle h3 { font-family: 'EB Garamond', serif; font-weight: 400; font-size: 1.6rem; color: var(--marine); }
+    .principle p { margin-top: 1rem; font-size: 1rem; max-width: 32rem; }
+    .intro .btn { margin-top: 3rem; }
+
+    /* Contact */
+    .contact-grid { display: grid; gap: 4rem; }
+    @media (min-width: 1024px) {
+      .contact-grid { grid-template-columns: 5fr 1fr 6fr; }
+      .contact-grid > .details { grid-column: 1; }
+      .contact-grid > form { grid-column: 3; }
+    }
+    .details dl { margin-top: 3rem; }
+    .details dt { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 2rem; }
+    .details dd { margin-top: .5rem; }
+    .details .email-link {
+      font-family: 'EB Garamond', serif; font-size: 1.35rem; color: var(--marine);
+      text-underline-offset: 4px;
+    }
+    .details .email-link:hover { text-decoration: underline; }
+    label { display: block; margin-bottom: .5rem; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(14,43,70,.7); }
+    input, textarea {
+      width: 100%; border: 1px solid rgba(14,43,70,.2); background: transparent;
+      padding: .9rem 1rem; font-family: inherit; font-size: 1rem; color: var(--marine);
+      transition: border-color .3s;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--gold); }
+    .field { margin-bottom: 1.5rem; }
+    .form-note { margin-top: 1rem; font-size: .85rem; color: rgba(58,74,87,.65); }
+
+    /* Footer */
+    footer { background: var(--marine); color: var(--cream); padding-top: 5rem; }
+    .footer-top {
+      display: flex; flex-direction: column; gap: 2.5rem;
+      border-bottom: 1px solid rgba(248,247,244,.15); padding-bottom: 4rem;
+    }
+    @media (min-width: 768px) { .footer-top { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+    .footer-top .tagline { margin-top: 1.5rem; max-width: 28rem; font-family: 'EB Garamond', serif; font-style: italic; font-size: 1.4rem; line-height: 1.6; color: rgba(248,247,244,.9); }
+    .footer-contact { font-size: .9rem; color: rgba(248,247,244,.7); line-height: 2; }
+    .footer-contact a:hover { color: var(--gold); }
+    .wordmark {
+      overflow: hidden; padding: 2.5rem .5rem 0; text-align: center;
+      font-family: 'EB Garamond', serif; font-size: 11vw; line-height: .85; letter-spacing: -.02em;
+      color: rgba(248,247,244,.07); white-space: nowrap; user-select: none;
+    }
+    .legal {
+      border-top: 1px solid rgba(248,247,244,.1); padding: 1.5rem 0;
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(248,247,244,.45);
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero .bg { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="header">
+    <div class="wrap bar">
+      <a class="logo" href="#top">Nan Capital<small>&amp; Consulting</small></a>
+      <nav class="desktop" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#markets">Markets</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="cta">Inquiries</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#markets">Markets</a>
+      <a href="#approach">Approach</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top" style="padding:0;">
+    <div class="bg"></div>
+    <div class="veil"></div>
+    <div class="wrap content">
+      <p class="mini-title reveal">Asia–Europe Investment Advisory</p>
+      <h1 class="reveal">Bridging Asian capital with <em>European opportunities</em></h1>
+      <p class="lead reveal">Nan Capital &amp; Consulting advises private investors, family offices and corporates from Asia on real estate, capital and industrial investments across Europe — from first idea to completed transaction.</p>
+      <div class="actions reveal">
+        <a href="#contact" class="btn btn-gold">Start a conversation</a>
+        <a href="#services" class="btn btn-outline">Our services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="text">
+        <p class="mini-title reveal">About us</p>
+        <h2 class="reveal">An independent partner on the <em>Asia–Europe corridor</em></h2>
+        <div class="body-text reveal">
+          <p>Nan Capital &amp; Consulting is a boutique advisory firm serving Asian clients who invest in Europe. We combine an Asia-native understanding of our clients' objectives with on-the-ground execution across European markets.</p>
+          <p>As an independent firm, we advise on one side of the table only — yours. No product pushing, no conflicts of interest: discreet, senior-level counsel from opportunity sourcing through due diligence to closing and beyond.</p>
+        </div>
+        <blockquote class="reveal">
+          <p>"Cross-border investment succeeds when both sides of the bridge are understood — the capital and the market."</p>
+          <footer>Our conviction</footer>
+        </blockquote>
+      </div>
+      <div class="image reveal">
+        <div class="about-img"><img src="about.jpg" alt="European office building facade" loading="lazy" /></div>
+        <p class="caption">We work where our clients invest — with presence and partners in Asia and across Europe's key financial and industrial centres.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="alt">
+    <div class="wrap">
+      <div style="max-width:42rem;">
+        <p class="mini-title reveal">What we do</p>
+        <h2 class="reveal">Three practice areas, <em>one mandate</em> — your interest</h2>
+      </div>
+      <div style="margin-top:4rem;">
+        <article class="service reveal">
+          <span class="nr">01</span>
+          <h3>Real Estate Investment</h3>
+          <div>
+            <p>Sourcing, evaluation and structuring of residential, commercial and hospitality assets across Europe. We manage the full acquisition process — market screening, due diligence, financing coordination and closing — and support asset management after the purchase.</p>
+            <div class="tags"><span>Acquisitions</span><span>Due diligence</span><span>Asset management</span></div>
+          </div>
+        </article>
+        <article class="service reveal">
+          <span class="nr">02</span>
+          <h3>Capital Advisory</h3>
+          <div>
+            <p>Cross-border capital structuring for private investors and family offices: investment vehicles, co-investment opportunities, fundraising support and wealth structuring in coordination with leading European banks, lawyers and tax advisers.</p>
+            <div class="tags"><span>Structuring</span><span>Co-investment</span><span>Family offices</span></div>
+          </div>
+        </article>
+        <article class="service reveal">
+          <span class="nr">03</span>
+          <h3>Industrial Investment</h3>
+          <div>
+            <p>Strategic investments in European industry — from minority stakes and M&amp;A to technology partnerships and joint ventures. We identify targets, open doors to owners and management, and accompany negotiations in both business cultures.</p>
+            <div class="tags"><span>M&amp;A</span><span>Joint ventures</span><span>Technology transfer</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MARKETS ===== -->
+  <section id="markets" class="dark">
+    <div class="wrap">
+      <div style="max-width:42rem;">
+        <p class="mini-title reveal">Where we work</p>
+        <h2 class="reveal">Asian clients, <em>European markets</em></h2>
+      </div>
+      <div class="stats">
+        <div class="reveal"><p class="value">3</p><p class="label">Core practice areas</p></div>
+        <div class="reveal"><p class="value">20+</p><p class="label">European markets covered</p></div>
+        <div class="reveal"><p class="value">2</p><p class="label">Continents, one corridor</p></div>
+      </div>
+      <div class="corridor">
+        <div class="reveal">
+          <h3>Our clients</h3>
+          <p class="where">Based in Asia</p>
+          <ul>
+            <li>Greater China</li>
+            <li>Singapore</li>
+            <li>Southeast Asia</li>
+            <li>Japan &amp; Korea</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <h3>Target markets</h3>
+          <p class="where">Across Europe</p>
+          <ul>
+            <li>Germany &amp; DACH</li>
+            <li>France &amp; Benelux</li>
+            <li>Iberia &amp; Italy</li>
+            <li>Central &amp; Eastern Europe</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPROACH ===== -->
+  <section id="approach">
+    <div class="wrap approach-grid">
+      <div class="intro">
+        <p class="mini-title reveal">How we work</p>
+        <h2 class="reveal">Built on trust, <em>measured in results</em></h2>
+        <p class="body-text reveal" style="max-width:28rem;">Every engagement follows the same discipline: understand the objective, screen the market, execute with rigour, stay accountable after closing.</p>
+        <a href="#contact" class="btn btn-gold reveal">Discuss your project</a>
+      </div>
+      <div class="principles">
+        <div class="principle reveal">
+          <span class="nr">01</span>
+          <div>
+            <h3>Independent &amp; discreet</h3>
+            <p>We are paid by our clients, not by products. Every recommendation is free of commissions and conflicts — and every mandate is handled in strict confidence.</p>
+          </div>
+        </div>
+        <div class="principle reveal">
+          <span class="nr">02</span>
+          <div>
+            <h3>Asia-native service</h3>
+            <p>Advice in your language, in your time zone, aligned with your decision-making culture. We translate not only words, but expectations.</p>
+          </div>
+        </div>
+        <div class="principle reveal">
+          <span class="nr">03</span>
+          <div>
+            <h3>European execution</h3>
+            <p>A senior network of lawyers, banks, tax advisers and industry partners across Europe carries your transaction from term sheet to closing.</p>
+          </div>
+        </div>
+        <div class="principle reveal">
+          <span class="nr">04</span>
+          <div>
+            <h3>End-to-end, senior only</h3>
+            <p>One accountable partner from first screening to post-closing support. No hand-offs, no junior teams learning on your mandate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="alt">
+    <div class="wrap contact-grid">
+      <div class="details">
+        <p class="mini-title reveal">Contact</p>
+        <h2 class="reveal">Let's discuss your <em>European ambitions</em></h2>
+        <p class="body-text reveal" style="max-width:28rem;">Every engagement starts with a confidential conversation. Reach out directly — we respond within one business day.</p>
+        <dl class="reveal">
+          <dt>Your contact</dt>
+          <dd class="serif" style="font-size:1.35rem;color:var(--marine);">Nan Wu</dd>
+          <dt>Email</dt>
+          <dd><a class="email-link" href="mailto:nan.wu@wucapitalconsulting.com">nan.wu@wucapitalconsulting.com</a></dd>
+          <dt>Offices</dt>
+          <dd>Hong Kong · Luxembourg</dd>
+        </dl>
+      </div>
+      <form id="inquiryForm" class="reveal" aria-label="Contact form">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Your name" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" required placeholder="you@company.com" />
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" required placeholder="Tell us briefly about your investment plans in Europe…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%;">Send inquiry</button>
+        <p class="form-note">Submitting opens your email client with the message pre-filled.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap footer-top">
+      <div>
+        <p class="mini-title">Nan Capital &amp; Consulting</p>
+        <p class="tagline">Your bridge between Asian capital and European opportunities.</p>
+      </div>
+      <div class="footer-contact">
+        <div style="color:rgba(248,247,244,.9);">Nan Wu</div>
+        <a href="mailto:nan.wu@wucapitalconsulting.com">nan.wu@wucapitalconsulting.com</a>
+        <div>Norway</div>
+      </div>
+    </div>
+    <div class="wordmark" aria-hidden="true">NAN CAPITAL</div>
+    <div class="legal"><div class="wrap">© <span id="year">2026</span> Nan Capital &amp; Consulting — All rights reserved</div></div>
+  </footer>
+
+  <script>
+    // Header: solid on scroll
+    var header = document.getElementById('header');
+    var burger = document.getElementById('burger');
+    function onScroll() {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu
+    burger.addEventListener('click', function () {
+      var open = header.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open);
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(function (a) {
+      a.addEventListener('click', function () { header.classList.remove('open'); });
+    });
+
+    // Scroll reveal
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+    // Contact form -> mailto (static hosting friendly)
+    document.getElementById('inquiryForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var message = document.getElementById('message').value;
+      var subject = encodeURIComponent('Inquiry from ' + (name || 'website visitor'));
+      var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+      window.location.href = 'mailto:nan.wu@wucapitalconsulting.com?subject=' + subject + '&body=' + body;
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
